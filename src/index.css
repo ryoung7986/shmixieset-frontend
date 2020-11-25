@@ -1,0 +1,16 @@
+/* TODO Add site wide styles */
+.root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* .nav-bar {
+    border: 1px solid orange;
+    color: white;
+} */
+
+.nav-link {
+    color:white;
+    text-decoration: none;
+}
