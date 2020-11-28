@@ -8,6 +8,7 @@ import NavBar from './NavBar';
 import { makeStyles } from '@material-ui/core/styles';
 import CreateGallery from '../UserProfilePage/CreateGallery';
 import OwnedGalleries from '../UserProfilePage/OwnedGalleries';
+import GalleryPage from '../UserProfilePage/GalleryPage';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -33,15 +34,10 @@ const Navigation = ({ isLoaded }) => {
       <div className={classes.root}>
         <NavBar sessionUser={sessionUser} />
         <Switch>
-          <Route exact path="/">
-            <UserProfilePage />
-          </Route>
-          <Route path="/create-gallery">
-            <CreateGallery />
-          </Route>
-          <Route path="/owned-galleries">
-            <OwnedGalleries />
-          </Route>
+          <Route exact path="/" component={UserProfilePage} />
+          <Route path="/create-gallery" component={CreateGallery} />
+          <Route path="/owned-galleries" component={OwnedGalleries} />
+          <Route path="/galleries/:id" component={GalleryPage} />
         </Switch>
       </div>
     );
@@ -51,14 +47,8 @@ const Navigation = ({ isLoaded }) => {
         <Grid container component="main">
           <NavBar />
           <Switch>
-            <Route path="/signup"
-              className="nav-link">
-              <SignupFormPage />
-            </Route>
-            <Route path="*"
-              className="nav-link">
-              <LoginFormPage />
-            </Route>
+            <Route path="/signup" component={SignupFormPage} />
+            <Route path="*" component={LoginFormPage} />
           </Switch>
         </Grid>
       </div>
