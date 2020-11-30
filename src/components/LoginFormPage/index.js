@@ -18,11 +18,12 @@ import NavBar from '../Navigation/NavBar';
 import * as sessionActions from '../../store/session';
 import './LoginForm.css';
 
-const loginPageImage = 'url(https://shmixieset-gallery-images.s3.amazonaws.com/IMAGE-1606241287131.jpg)'
+const loginPageImage = 'url(https://shmixieset-gallery-images.s3.amazonaws.com/Portfolio/591_0019.jpg)'
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
+    width: "100vw"
   },
   image: {
     backgroundImage: loginPageImage,
@@ -33,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
         theme.palette.grey[900],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
+    width: "100%",
   },
   title: {
     textAlign: 'center',
@@ -78,7 +80,6 @@ const LoginFormPage = () => {
 
   return (
     <Grid container component="main" className={classes.root}>
-      {/* <NavBar /> */}
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>

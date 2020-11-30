@@ -1,19 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, GridList, GridListTile, Grid } from '@material-ui/core';
 import * as awsActions from "../../store/aws";
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
-    display: "flex",
+    width: '100vw',
     alignItems: 'center',
     flexDirection: 'column',
+    display: "flex",
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    backgroundColor: theme.palette.paper,
   },
   form: {
     width: '40%', // Fix IE 11 issue.
@@ -39,25 +43,27 @@ const CreateGallery = () => {
   const [galleryPassword, setGalleryPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [files, setFiles] = useState(null);
+  const galleryImages = useSelector(state => state.files.galleryImages);
+  const id = useSelector(state => state.files.galleryId);
 
   const dispatch = useDispatch();
+  const history = useHistory();
   const classes = useStyles();
 
-  const nextStep = (e) => {
-    e.preventDefault(e)
+  useEffect(() => {
+    dispatch(awsActions.fetchGalleryImages(id))
+  }, [dispatch, id, step])
+
+  const handleCreateGallery = (e) => {
+    e.preventDefault();
     dispatch(awsActions.createGallery(ownerId, galleryName, galleryPassword));
     setStep(2);
   }
 
-  const handleSubmit = async (e) => {
-    console.log("submit");
-  }
-
-  const submitFiles = async (e) => {
+  const handleSubmitFiles = async (e) => {
     e.preventDefault();
-    dispatch(awsActions.submitFiles(files));
-    step = 1;
-    console.log("STEP", step);
+    dispatch(awsActions.submitFiles(files, id));
+    history.push('/')
   };
 
   let sessionLinks
@@ -65,7 +71,7 @@ const CreateGallery = () => {
     sessionLinks = (
       <Grid className={classes.root}>
         <h1>Create your gallery</h1>
-        <form className={classes.form} onSubmit={nextStep}>
+        <form className={classes.form} onSubmit={handleCreateGallery}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -113,11 +119,11 @@ const CreateGallery = () => {
     );
   }
 
-  if (step !== 1) {
+  if (step === 2) {
     sessionLinks = (
       <Grid className={classes.root}>
         <h1>Upload your images</h1>
-        <form className={classes.form} onSubmit={handleSubmit}>
+        <form className={classes.form} onSubmit={handleSubmitFiles}>
           <label>Upload files</label>
           <input
             type="file"

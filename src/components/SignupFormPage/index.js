@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -13,7 +13,8 @@ import './SignupForm.css'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100vh',
+    display: 'flex',
+    alignContent: 'center',
     justifyContent: "center",
   },
   title: {
@@ -27,19 +28,23 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100vw', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    border: "1px solid lightgrey",
+    justifyContent: 'center',
     borderRadius: "20px",
+  },
+  killmenow: {
+    width: '100%',
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    width: "40%"
+    width: "200px",
   },
 }))
 
@@ -52,6 +57,7 @@ const SignupFormPage = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState('');
   const classes = useStyles();
+  const history = useHistory();
 
   if (sessionUser) return <Redirect to="/" />;
 
@@ -61,7 +67,11 @@ const SignupFormPage = () => {
       setErrors([]);
       return dispatch(sessionActions.signup({ email, username, password }))
         .catch(res => {
-          if (res.data && res.data.errors) setErrors(res.data.errors);
+          if (res.data && res.data.errors) {
+            setErrors(res.data.errors)
+          } else {
+            history.push('/')
+          }
         });
     }
     return setErrors(['Passwords do not match']);

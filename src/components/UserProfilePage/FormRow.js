@@ -1,7 +1,10 @@
+import {useDispatch} from 'react-redux';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
+import { Button } from '@material-ui/core';
+import * as awsActions from '../../store/aws';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -11,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: 'url(https://shmixieset-gallery-images.s3.amazonaws.com/Portfolio/DSC_1618.jpg)',
     backgroundSize: 'cover',
     boxShadow: '2px 2px 20px #000000',
-    // color: theme.palette.text.secondary,
   },
   title: {
     color: 'white',
@@ -27,6 +29,13 @@ const useStyles = makeStyles((theme) => ({
 export const FormRow = ({ galleries }) => {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  const deleteGallery = (e) => {
+    e.preventDefault();
+    dispatch(awsActions.deleteGallery(e.currentTarget.value));
+    history.push('/');
+  }
 
   return (
     <>
@@ -35,13 +44,26 @@ export const FormRow = ({ galleries }) => {
           <Grid
             item xs={4}
             key={gallery.id}
-            onClick={() => {
-              history.push(`/galleries/${gallery.id}`)
-            }}
-          >
-            <Paper className={classes.paper}>
+            >
+            <Paper
+              onClick={() => {
+                history.push(`/galleries/${gallery.id}`)
+              }}
+              className={classes.paper}
+              style={{ backgroundImage: `url(${gallery.coverImage})` }}>
               <h1 className={classes.title}>{gallery.name}</h1>
             </Paper>
+    `      <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            value={gallery.id}
+            onClick={deleteGallery}
+            className={classes.submit}
+          >
+            Delete Gallery
+            </Button>`
           </Grid>
         ))}
     </>

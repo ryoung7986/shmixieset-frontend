@@ -12,27 +12,14 @@ import { Link } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
   navbar: {
     textAlign: "center",
   },
   navbarTitle: {
     flexGrow: 1,
   },
-  profileButton: {
-    // flexGrow: 1,
-  },
-  homeButton: {
-    marginLeft: -12,
-    marginRight: 20,
-  },
   menuButton: {
     marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
   },
   menuItem: {
     textDecoration: "none",
@@ -108,29 +95,26 @@ const NavBar = ({ sessionUser }) => {
   }
 
   return (
-    <div className={navclass.root}>
-      <AppBar position="static" className={navclass.navbar}>
-        <Toolbar>
-          <IconButton edge="start"
-            className={navclass.menuButton}
-            color="inherit"
-            aria-label="menu"
-            aria-controls="simple-menu"
-            aria-haspopup="true"
-            onClick={handleClick}
-          >
-            <MenuIcon />
-          </IconButton>
-          {sessionOptions}
-          <Typography variant="h6" className={navclass.navbarTitle}>
-            Shmixieset
+    <AppBar className={navclass.navbar}>
+      <Toolbar>
+        <IconButton edge="start"
+          className={navclass.menuButton}
+          color="inherit"
+          aria-label="menu"
+          aria-controls="simple-menu"
+          aria-haspopup="true"
+          onClick={handleClick}
+        >
+          <MenuIcon />
+        </IconButton>
+        {sessionOptions}
+        <Typography variant="h6" className={navclass.navbarTitle}>
+          Shmixieset
           </Typography>
-          {/* {sessionUser && <ProfileButton className={navclass.profileButton} />} */}
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
-  // )
+        {/* {sessionUser && <ProfileButton className={navclass.profileButton} />} */}
+      </Toolbar>
+    </AppBar>
+  )
 }
 
 export default NavBar;

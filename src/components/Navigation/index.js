@@ -9,29 +9,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import CreateGallery from '../UserProfilePage/CreateGallery';
 import OwnedGalleries from '../UserProfilePage/OwnedGalleries';
 import GalleryPage from '../UserProfilePage/GalleryPage';
-
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    display: "flex",
-    flexDirection: "column"
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-}));
+import './Navigation.css'
 
 const Navigation = ({ isLoaded }) => {
   const sessionUser = useSelector(state => state.session.user);
-  const classes = useStyles();
 
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
-      <div className={classes.root}>
+      <div>
         <NavBar sessionUser={sessionUser} />
         <Switch>
           <Route exact path="/" component={UserProfilePage} />
@@ -43,7 +29,7 @@ const Navigation = ({ isLoaded }) => {
     );
   } else {
     sessionLinks = (
-      <div className={classes.root}>
+      <div >
         <Grid container component="main">
           <NavBar />
           <Switch>
@@ -56,9 +42,9 @@ const Navigation = ({ isLoaded }) => {
   }
 
   return (
-    <>
+    <div>
       {isLoaded && sessionLinks}
-    </>
+    </div>
   )
 }
 
